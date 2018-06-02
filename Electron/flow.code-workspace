@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "boilerplate"
+		}
+	],
+	"settings": {
+		"flow.useNPMPackagedFlow": true,
+		"javascript.validate.enable": false,
+		"git.ignoreLimitWarning": true
+	}
+}

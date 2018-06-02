@@ -1,0 +1,23 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>boilerplate</title>
+  <!-- <script src="http://localhost:8088/webpack-dev-server.js"></script> -->
+  <!-- <script src="http://localhost:8088/js/renderer.bundle.js"></script> -->
+  <script src="js/renderer.bundle.js"></script>
+  <!-- <link href="http://localhost:8088/css/bundle.css" rel="stylesheet"> -->
+  <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
+</head>
+<body>
+<div id="view"></div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const Renderer = window.boilerplate.Renderer;
+    if (Renderer != null) new Renderer('view');
+  });
+</script>
+</body>
+</html>
