@@ -1,13 +1,18 @@
+/* @flow */
 import Root from './components/root';
 
 class Renderer {
+    targetElement: ?Object;
+    root: Root;
 
-  constructor(targetElementId) {
-    this.targetElement = document.getElementById(targetElementId);
-    this.root = new Root(this.targetElement);
-  }
+    constructor(targetElementId: string) {
+        this.targetElement = document.getElementById(targetElementId);
+        if (this.targetElement !== null) {
+            this.root = new Root(this.targetElement);
+        }
+    }
 }
 
 window.boilerplate = {
-  Renderer
+    Renderer
 };

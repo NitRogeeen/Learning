@@ -1,3 +1,4 @@
+/* @flow */
 import { BrowserWindow, app } from 'electron';
 import path from 'path';
 import url from 'url';
@@ -5,12 +6,14 @@ import url from 'url';
 let win: BrowserWindow;
 
 class Main {
+    loadUrl: string;
+    
     constructor() {
         this.loadUrl = this.getLoadUrl('./dist');
         this.initialize();
     }
 
-    getLoadUrl(rootPath) {
+    getLoadUrl(rootPath: string): string {
         return url.format({
             protocol: 'file',
             pathname: path.join(path.resolve(rootPath), 'index.html'),
@@ -19,7 +22,7 @@ class Main {
     }
 
     //create window
-    ready() {
+    ready(): void {
         win = new BrowserWindow({
             width: 500,
             height: 500,
@@ -37,19 +40,19 @@ class Main {
         win.loadURL(this.loadUrl);
     }
 
-    activate() {
+    activate(): void {
         if (win == null) {
             this.ready();
         }
     }
 
-    windowAllClosed() {
+    windowAllClosed(): void {
         if (process.platform !== 'darwin') {
             app.quit();
         }
     }
 
-    initialize() {
+    initialize(): void {
         app.on('ready', () => this.ready());
         app.on('activate', () => this.activate());
         app.on('window-all-closed', () => this.windowAllClosed());

@@ -1,15 +1,20 @@
+/* @flow */
 import React from 'react';
 import { render } from 'react-dom';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import Hello from './hello'
 
 class Root {
-    constructor(targetElement) {
+    targetElement: Object;
+
+    constructor(targetElement: Object) {
         this.targetElement = targetElement;
-        this.renderView();
+        if (targetElement) {
+            this.renderView();
+        }
     }
 
-    renderView() {
+    renderView(): void {
         render((
             <HashRouter>
                 <Switch>
