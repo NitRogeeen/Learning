@@ -77,7 +77,7 @@
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
+/******/ 	__webpack_require__.p = "/";
 /******/
 /******/
 /******/ 	// Load entry module and return exports
@@ -96,14 +96,16 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 
 var Renderer = function Renderer(targetElementId) {
-  _classCallCheck(this, Renderer);
+    _classCallCheck(this, Renderer);
 
-  this.targetElement = document.getElementById(targetElementId);
-  this.root = new _components_root__WEBPACK_IMPORTED_MODULE_0__["default"](this.targetElement);
+    this.targetElement = document.getElementById(targetElementId);
+    if (this.targetElement !== null) {
+        this.root = new _components_root__WEBPACK_IMPORTED_MODULE_0__["default"](this.targetElement);
+    }
 };
 
 window.boilerplate = {
-  Renderer: Renderer
+    Renderer: Renderer
 };
 
 /***/ }),
@@ -132,7 +134,9 @@ var Root = function () {
         _classCallCheck(this, Root);
 
         this.targetElement = targetElement;
-        this.renderView();
+        if (targetElement) {
+            this.renderView();
+        }
     }
 
     _createClass(Root, [{

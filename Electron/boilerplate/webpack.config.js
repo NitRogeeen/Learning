@@ -1,4 +1,6 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 
 const MODE = 'none';
 const src = './src';
@@ -11,7 +13,8 @@ module.exports = [
         },
         output: {
             filename: '[name].bundle.js',
-            path: path.resolve(dist)
+            path: path.resolve(dist),
+            publicPath: '/'
         },
         module: {
             rules: [
@@ -34,7 +37,8 @@ module.exports = [
         },
         output: {
             filename: '[name].bundle.js',
-            path: path.resolve(dist)
+            path: path.resolve(dist),
+            publicPath: '/'
         },
         module: {
             rules: [
@@ -42,12 +46,26 @@ module.exports = [
                     test:/(\.js$|\.jsx$)/,
                     use: [
                         {
-                            loader: 'babel-loader'
+                            loader: 'babel-loader',
                         }
-                    ]
+                    ],
+                    exclude: /node_modules/
                 }
             ]
         },
+        devServer: { 
+            contentBase: path.resolve(dist),
+            historyApiFallback: true,
+            // inline: true,
+            // hot: true
+        },
+        plugins: [
+            new HtmlWebpackPlugin({
+                filename: 'index.html',
+                template: 'dist/index.html',
+            }),
+            new webpack.HotModuleReplacementPlugin()
+        ],
         target: 'web',
         resolve: {
             extensions: ['.js', '.jsx']
