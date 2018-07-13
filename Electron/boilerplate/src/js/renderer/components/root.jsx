@@ -1,9 +1,8 @@
 /* @flow */
 import React from 'react';
 import { render } from 'react-dom';
-import { HashRouter, Route, Switch } from 'react-router-dom';
-import Hello from './hello'
-import Temp from './template/temp'
+import {HashRouter as Router} from 'react-router-dom';
+import { App } from 'Js/renderer/components/index';
 
 class Root {
     targetElement: Object;
@@ -17,13 +16,9 @@ class Root {
 
     renderView(): void {
         render((
-            <HashRouter>
-                <Switch>
-                    <Route exact path = '/' component={Hello} />
-                    <Route path = '/hello' component={Hello} />
-                    <Route path = '/temp' component={Temp} />
-                </Switch>
-            </HashRouter>
+            <Router>
+                <App />
+            </Router>
         ), this.targetElement);
     }
 }
