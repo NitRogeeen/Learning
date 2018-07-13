@@ -1,10 +1,15 @@
 const path = require('path');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const webpack = require('webpack');
+// const autoprefixer = require('autoprefixer');
 
-const MODE = 'none';
+const extractCSS = new ExtractTextPlugin({filename: 'css/bundle.css'});
 const src = './src';
 const dist = './dist';
+
+const MODE = 'none';
+// const enableSourceMap = (MODE === 'none');
+
 module.exports = [
     {
         mode: MODE,
@@ -14,12 +19,14 @@ module.exports = [
         output: {
             filename: '[name].bundle.js',
             path: path.resolve(dist),
-            publicPath: '/'
+            // publicPath: '/'
+            publicPath: 'http://localhost:8888/'
         },
         module: {
             rules: [
                 {
-                    test:/\.js$/,
+                    test: /\.(js|jsx)$/,
+                    exclude: /node_modules/,
                     use: [
                         {
                             loader: 'babel-loader'
@@ -28,7 +35,13 @@ module.exports = [
                 }
             ]
         },
-        target: 'electron-main'
+        resolve: {
+            extensions: ['.js', '.jsx'],
+        },
+        target: 'electron-main',
+        node: {
+            __dirname: false
+        }
     },
     {
         mode: MODE,
@@ -38,37 +51,50 @@ module.exports = [
         output: {
             filename: '[name].bundle.js',
             path: path.resolve(dist),
-            publicPath: '/'
+            // publicPath: '/'
+            publicPath: 'http://localhost:8888/'
         },
         module: {
             rules: [
                 {
-                    test:/(\.js$|\.jsx$)/,
+                    test: /\.(js|jsx)$/,
+                    exclude: /node_modules/,
                     use: [
                         {
-                            loader: 'babel-loader',
+                            loader: 'babel-loader'
                         }
-                    ],
-                    exclude: /node_modules/
+                    ]
+                },
+                {
+                    test: /\.(scss)$/,
+                    use: extractCSS.extract({
+                        fallback: 'style-loader',
+                        use: [
+                            'css-loader?modules&camelCase&importLoaders=2&localIdentName=[name]---[local]---[hash:base64:5]',
+                            'postcss-loader',
+                            'sass-loader'
+                        ]
+                    })
                 }
             ]
         },
-        devServer: { 
-            contentBase: path.resolve(dist),
-            historyApiFallback: true,
-            // inline: true,
-            // hot: true
+        resolve: {
+            alias: {
+                Js: path.resolve(`${src}/js`),
+                Scss: path.resolve(`${src}/scss`),
+            },
+            extensions: ['.js', '.jsx', '.scss'],
         },
+        // target: 'electron-renderer',
+        target: 'web',
         plugins: [
             new HtmlWebpackPlugin({
-                filename: 'index.html',
-                template: 'dist/index.html',
+                template: 'dist/index.html'
             }),
-            new webpack.HotModuleReplacementPlugin()
+            extractCSS
         ],
-        target: 'web',
-        resolve: {
-            extensions: ['.js', '.jsx']
+        node: {
+            __dirname: false
         }
     }
-]
+];
