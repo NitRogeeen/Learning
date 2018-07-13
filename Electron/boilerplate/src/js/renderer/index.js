@@ -13,6 +13,6 @@ class Renderer {
     }
 }
 
-window.boilerplate = {
+window.myApp = {
     Renderer
 };
